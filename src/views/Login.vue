@@ -49,8 +49,15 @@ export default {
           const { meta: { msg, status } } = response.data;
           if (status === 200) {
             // 成功
+            // 跳转/提示/记录token
+            this.$message.success(msg);
+            // 记录token
+            // sessionStorage;
+            // localStorage;
+            sessionStorage.setItem('token', response.data.data.token);
           } else {
             // 失败
+            this.$message.error(msg);
           }
         })
         .catch((err) => {
