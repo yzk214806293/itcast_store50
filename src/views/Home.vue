@@ -18,29 +18,49 @@
       <el-aside width="200px">
         <!-- 侧边栏 -->
         <el-menu
-          default-active="1-1">
+          :unique-opened="true"
+          :router="true"
+          style="height: 100%"
+          default-active="0">
           <el-submenu index="1">
             <!-- 显示的是父菜单的内容 -->
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>用户管理</span>
             </template>
             <!-- 菜单项 el-menu-item -->
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item index="/users">
+              <i class="el-icon-view"></i>
+              用户列表
+            </el-menu-item>
           </el-submenu>
-          <el-menu-item index="4">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
+          <el-submenu index="2">
+            <!-- 显示的是父菜单的内容 -->
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>权限管理</span>
+            </template>
+            <!-- 菜单项 el-menu-item -->
+            <el-menu-item index="/roles">
+              <i class="el-icon-view"></i>
+              角色列表
+            </el-menu-item>
+            <el-menu-item index="/rights">
+              <i class="el-icon-view"></i>
+              权限列表
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <!-- 显示的是父菜单的内容 -->
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>商品管理</span>
+            </template>
+            <!-- 菜单项 el-menu-item -->
+            <el-menu-item index="3-1">商品列表</el-menu-item>
+            <el-menu-item index="3-2">分类参数</el-menu-item>
+            <el-menu-item index="3-3">商品分类</el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-main>Main</el-main>
