@@ -30,7 +30,7 @@ export default {
         username: '',
         password: ''
       }
-    }
+    };
   },
   methods: {
     // 登录

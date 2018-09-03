@@ -1,8 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
-Vue.use(Router);
-
 // 1 @是src目录，在build的配置文件中配置的
 //   @  webpack.base.conf 的第38行配置的
 
@@ -10,6 +7,8 @@ Vue.use(Router);
 // 加载一个模块的时候，如果省略后缀名，默认情况 先加载login.js，如果找不到再加载 login.json
 // 默认的情况可以修改，在webpack.base.conf的35行配置
 import Login from '@/views/Login';
+
+Vue.use(Router);
 
 export default new Router({
   routes: [
