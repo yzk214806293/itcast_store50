@@ -8,6 +8,7 @@ import Router from 'vue-router';
 // 默认的情况可以修改，在webpack.base.conf的35行配置
 import Login from '@/views/Login';
 import Home from '@/views/Home';
+import Users from '@/views/users/List';
 
 Vue.use(Router);
 
@@ -17,7 +18,14 @@ export default new Router({
     {
       name: 'home',
       path: '/',
-      component: Home
+      component: Home,
+      children: [
+        {
+          name: 'users',
+          path: '/users',
+          component: Users
+        }
+      ]
     }
   ]
 });
