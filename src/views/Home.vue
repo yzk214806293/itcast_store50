@@ -70,7 +70,16 @@
 
 <script>
 export default {
-
+  // 判断是否登录
+  beforeCreate() {
+    const token = sessionStorage.getItem('token');
+    // 判断是否获取到token
+    if (!token) {
+      // 如果token不存在，认为没有登录
+      this.$message.warning('请先登录');
+      this.$router.push('/login');
+    }
+  }
 };
 </script>
 
