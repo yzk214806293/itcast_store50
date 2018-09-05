@@ -74,7 +74,7 @@
           <!-- 通过scope.$index可以获取到当前行的索引 -->
           <!-- scope.row 当前这一行所绑定的数据对象 -->
           <!-- {{ scope.row.id }} -->
-          <el-button @click="editUserDialogFormVisible = true" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
+          <el-button @click="handleOpenEditDialog(scope.row)" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button @click="handleDelete(scope.row.id)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
           <el-button size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
@@ -327,6 +327,15 @@ export default {
       for (let key in this.formData) {
         this.formData[key] = '';
       }
+    },
+    // 点击编辑按钮，打开修改用户的对话框
+    handleOpenEditDialog(user) {
+      // 打开修改用户的对话框
+      this.editUserDialogFormVisible = true;
+      // 设置formData的值
+      this.formData.username = user.username;
+      this.formData.email = user.email;
+      this.formData.mobile = user.mobile;
     }
   }
 };
