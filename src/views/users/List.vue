@@ -74,7 +74,7 @@
           <!-- 通过scope.$index可以获取到当前行的索引 -->
           <!-- scope.row 当前这一行所绑定的数据对象 -->
           <!-- {{ scope.row.id }} -->
-          <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
+          <el-button @click="editUserDialogFormVisible = true" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button @click="handleDelete(scope.row.id)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
           <el-button size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
@@ -134,6 +134,29 @@
       </div>
     </el-dialog>
 
+    <!-- 修改用户的对话框 -->
+    <el-dialog
+      title="修改用户"
+      :visible.sync="editUserDialogFormVisible"
+      @close="handleClose">
+      <el-form
+        label-width="80px"
+        :model="formData">
+        <el-form-item label="用户名">
+          <el-input v-model="formData.username" auto-complete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="formData.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话">
+          <el-input v-model="formData.mobile" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editUserDialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleEdit">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -155,6 +178,8 @@ export default {
       searchValue: '',
       // 控制添加用户对话框的显示或隐藏
       addUserDialogFormVisible: false,
+      // 控制修改用户对话框的显示或隐藏
+      editUserDialogFormVisible: false,
       // 绑定的表单对象
       formData: {
         username: '',
