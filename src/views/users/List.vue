@@ -111,6 +111,7 @@
       :visible.sync="addUserDialogFormVisible"
       @close="handleClose">
       <el-form
+        ref="form"
         :rules="rules"
         label-width="80px"
         :model="formData">
@@ -270,29 +271,30 @@ export default {
       }
     },
     // 添加用户
-    async handleAdd() {
-      const response = await this.$http.post('users', this.formData);
-      // 获取数据，判断添加是否成功
-      const { meta: { status, msg } } = response.data;
-      if (status === 201) {
-        // 成功
-        // 提示
-        this.$message.success(msg);
-        // 刷新表格
-        this.loadData();
-        // 关闭对话框
-        this.addUserDialogFormVisible = false;
-        // 清空文本框
-        // this.formData = {};
-
-        // 遍历对象的所有属性，把属性对应的值设置为空
-        // for (let key in this.formData) {
-        //   this.formData[key] = '';
-        // }
-      } else {
-        // 失败
-        this.$message.error(msg);
-      }
+    handleAdd() {
+      // 表单验证
+      this.$refs.form.validate(async (valid) => {
+        if (!valid) {
+          this.$message.warning('验证失败');
+          return;
+        }
+        // 验证成功，发送异步请求
+        const response = await this.$http.post('users', this.formData);
+        // 获取数据，判断添加是否成功
+        const { meta: { status, msg } } = response.data;
+        if (status === 201) {
+          // 成功
+          // 提示
+          this.$message.success(msg);
+          // 刷新表格
+          this.loadData();
+          // 关闭对话框
+          this.addUserDialogFormVisible = false;
+        } else {
+          // 失败
+          this.$message.error(msg);
+        }
+      });
     },
     // 关闭对话框的时候，清空文本框
     handleClose() {
