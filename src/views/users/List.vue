@@ -18,7 +18,7 @@
           <el-button @click="handleSearch" slot="append" icon="el-icon-search"></el-button>
         </el-input>
 
-        <el-button type="success" plain>添加用户</el-button>
+        <el-button @click="addUserDialogFormVisible = true" type="success" plain>添加用户</el-button>
       </el-col>
     </el-row>
     <!-- 表格 -->
@@ -104,6 +104,27 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+
+    <!-- 添加用户的对话框 -->
+    <el-dialog title="添加用户" :visible.sync="addUserDialogFormVisible">
+      hello
+      <!-- <el-form :model="form">
+        <el-form-item label="活动名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div> -->
+    </el-dialog>
+
   </el-card>
 </template>
 
@@ -122,7 +143,9 @@ export default {
       // 总数据量
       total: 0,
       // 绑定搜索文本框
-      searchValue: ''
+      searchValue: '',
+      // 控制添加用户对话框的显示或隐藏
+      addUserDialogFormVisible: false
     };
   },
   created() {
