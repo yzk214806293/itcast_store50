@@ -106,7 +106,10 @@
     </el-pagination>
 
     <!-- 添加用户的对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addUserDialogFormVisible">
+    <el-dialog
+      title="添加用户"
+      :visible.sync="addUserDialogFormVisible"
+      @close="handleClose">
       <el-form
         label-width="80px"
         :model="formData">
@@ -268,9 +271,22 @@ export default {
         // 关闭对话框
         this.addUserDialogFormVisible = false;
         // 清空文本框
+        // this.formData = {};
+
+        // 遍历对象的所有属性，把属性对应的值设置为空
+        // for (let key in this.formData) {
+        //   this.formData[key] = '';
+        // }
       } else {
         // 失败
         this.$message.error(msg);
+      }
+    },
+    // 关闭对话框的时候，清空文本框
+    handleClose() {
+      // 遍历对象的所有属性，把属性对应的值设置为空
+      for (let key in this.formData) {
+        this.formData[key] = '';
       }
     }
   }
