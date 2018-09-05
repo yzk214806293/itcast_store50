@@ -20,6 +20,7 @@
     </el-row>
     <!-- 表格 -->
     <el-table
+      v-loading="loading"
       :data="tableData"
       border
       stripe
@@ -74,7 +75,6 @@
           <el-button size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
       </el-table-column>
-      </el-table-column>
     </el-table>
   </el-card>
 </template>
@@ -83,7 +83,9 @@
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      // 加载提示
+      loading: true
     };
   },
   created() {
@@ -93,12 +95,16 @@ export default {
   methods: {
     // 异步请求用户列表数据
     async loadData() {
+      // 请求开始
       // 设置token
       const token = sessionStorage.getItem('token');
       // 设置请求头
       this.$http.defaults.headers.common['Authorization'] = token;
 
       const response = await this.$http.get('users?pagenum=1&pagesize=10');
+      // 请求结束
+      this.loading = false;
+
       const { meta: { msg, status } } = response.data;
       // 判断获取数据是否ok
       if (status === 200) {
