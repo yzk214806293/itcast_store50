@@ -174,19 +174,32 @@ export default {
     handleDelete(id) {
       // 删除提示
       this.$confirm('确定删除该用户?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 点击确定按钮执行
-          
-        }).catch(() => {
-          // 点击取消按钮执行
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 点击确定按钮执行
+        // 在postman中测试接口
+        const response = await this.$http.delete(`users/${id}`);
+
+        // 获取返回的数据，判断删除是否成功
+        const { meta: { status, msg } } = response.data;
+        if (status === 200) {
+          // 成功
+          this.$message.success(msg);
+          // 刷新表格
+          this.loadData();
+        } else {
+          // 失败
+          this.$message.error(msg);
+        }
+      }).catch(() => {
+        // 点击取消按钮执行
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         });
+      });
     }
   }
 };
