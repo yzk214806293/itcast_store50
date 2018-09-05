@@ -74,7 +74,7 @@
           <!-- scope.row 当前这一行所绑定的数据对象 -->
           <!-- {{ scope.row.id }} -->
           <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" plain></el-button>
+          <el-button @click="handleDelete(scope.row.id)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
           <el-button size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
       </el-table-column>
@@ -169,6 +169,24 @@ export default {
     // 搜索功能
     handleSearch() {
       this.loadData();
+    },
+    // 删除用户
+    handleDelete(id) {
+      // 删除提示
+      this.$confirm('确定删除该用户?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 点击确定按钮执行
+          
+        }).catch(() => {
+          // 点击取消按钮执行
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     }
   }
 };
