@@ -336,6 +336,30 @@ export default {
       this.formData.username = user.username;
       this.formData.email = user.email;
       this.formData.mobile = user.mobile;
+      // 点击编辑按钮的时候。记录下用户的id，点击确定按钮的时候使用
+      this.formData.id = user.id;
+    },
+    // 点击确定按钮，修改用户信息
+    async handleEdit() {
+      // /users/:id  mobile  email
+      const response = await this.$http.put(`/users/${this.formData.id}`, {
+        email: this.formData.email,
+        mobile: this.formData.mobile
+      });
+
+      const { meta: { status, msg } } = response.data;
+      if (status === 200) {
+        // 成功
+        // 关闭对话框
+        this.editUserDialogFormVisible = false;
+        // 刷新table
+        this.loadData();
+        // 提示
+        this.$message.success(msg);
+      } else {
+        this.$message.error(msg);
+      }
+
     }
   }
 };
