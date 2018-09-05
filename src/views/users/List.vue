@@ -187,6 +187,11 @@ export default {
         if (status === 200) {
           // 成功
           this.$message.success(msg);
+
+          // 如果是最后一页，并且只有一条数据，此时删除数据会有问题
+          if (this.pagenum > 1 && this.tableData.length === 1) {
+            this.pagenum--;
+          }
           // 刷新表格
           this.loadData();
         } else {
