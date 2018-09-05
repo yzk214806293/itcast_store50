@@ -91,10 +91,11 @@
       total 总条数
      -->
     <el-pagination
+      style="margin-top: 15px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pagenum"
-      :page-sizes="[10, 20, 30, 40]"
+      :page-sizes="[2, 3, 4, 5]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -113,9 +114,9 @@ export default {
       // 页码
       pagenum: 1,
       // 页容量
-      pagesize: 10,
+      pagesize: 2,
       // 总数据量
-      total: 100
+      total: 0
     };
   },
   created() {
@@ -131,7 +132,7 @@ export default {
       // 设置请求头
       this.$http.defaults.headers.common['Authorization'] = token;
 
-      const response = await this.$http.get('users?pagenum=1&pagesize=10');
+      const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
       // 请求结束
       this.loading = false;
 
@@ -139,15 +140,24 @@ export default {
       // 判断获取数据是否ok
       if (status === 200) {
         this.tableData = response.data.data.users;
+        // 设置总条数
+        this.total = response.data.data.total;
       } else {
         this.$message.error(msg);
       }
     },
     // 分页相关方法
     handleSizeChange(val) {
+      // 页容量发送变化 val 页容量
+      this.pagesize = val;
+      this.loadData();
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      // 当页码发送改变执行  val就是当前页码
+      this.pagenum = val;
+      this.loadData();
+
       console.log(`当前页: ${val}`);
     }
   }
