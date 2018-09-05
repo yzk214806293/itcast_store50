@@ -73,26 +73,20 @@ export default {
   },
   methods: {
     // 异步请求用户列表数据
-    loadData() {
+    async loadData() {
       // 设置token
       const token = sessionStorage.getItem('token');
       // 设置请求头
       this.$http.defaults.headers.common['Authorization'] = token;
 
-      this.$http
-        .get('users?pagenum=1&pagesize=10')
-        .then((response) => {
-          const { meta: { msg, status } } = response.data;
-          // 判断获取数据是否ok
-          if (status === 200) {
-            this.tableData = response.data.data.users;
-          } else {
-            this.$message.error(msg);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const response = await this.$http.get('users?pagenum=1&pagesize=10');
+      const { meta: { msg, status } } = response.data;
+      // 判断获取数据是否ok
+      if (status === 200) {
+        this.tableData = response.data.data.users;
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
