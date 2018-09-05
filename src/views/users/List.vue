@@ -50,8 +50,15 @@
         label="时间">
       </el-table-column>
       <el-table-column
-        prop="mg_state"
         label="用户状态">
+        <template slot-scope="scope">
+          <!-- 让开关绑定当前用户的 mg_state属性 -->
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </template>
       </el-table-column>
       <el-table-column
         label="操作">
