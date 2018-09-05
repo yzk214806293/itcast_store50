@@ -132,6 +132,7 @@ export default {
     // 异步请求用户列表数据
     async loadData() {
       // 请求开始
+      this.loading = true;
       // 设置token
       const token = sessionStorage.getItem('token');
       // 设置请求头
