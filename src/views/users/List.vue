@@ -111,12 +111,13 @@
       :visible.sync="addUserDialogFormVisible"
       @close="handleClose">
       <el-form
+        :rules="rules"
         label-width="80px"
         :model="formData">
-        <el-form-item label="用户名">
+        <el-form-item label="用户名" prop="username">
           <el-input v-model="formData.username" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="formData.password" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
@@ -159,6 +160,17 @@ export default {
         password: '',
         email: '',
         mobile: ''
+      },
+      // 表单验证规则
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+        ]
       }
     };
   },
