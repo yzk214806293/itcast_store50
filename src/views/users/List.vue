@@ -9,10 +9,13 @@
     <!-- 搜索 -->
     <el-row class="row">
       <el-col :span="24">
+        <!-- 搜索文本框 -->
         <el-input
+          clearable
+          v-model="searchValue"
           style="width: 300px"
           placeholder="请输入内容">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button @click="handleSearch" slot="append" icon="el-icon-search"></el-button>
         </el-input>
 
         <el-button type="success" plain>添加用户</el-button>
@@ -116,7 +119,9 @@ export default {
       // 页容量
       pagesize: 2,
       // 总数据量
-      total: 0
+      total: 0,
+      // 绑定搜索文本框
+      searchValue: ''
     };
   },
   created() {
@@ -132,7 +137,7 @@ export default {
       // 设置请求头
       this.$http.defaults.headers.common['Authorization'] = token;
 
-      const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
+      const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
       // 请求结束
       this.loading = false;
 
@@ -159,6 +164,10 @@ export default {
       this.loadData();
 
       console.log(`当前页: ${val}`);
+    },
+    // 搜索功能
+    handleSearch() {
+      this.loadData();
     }
   }
 };
