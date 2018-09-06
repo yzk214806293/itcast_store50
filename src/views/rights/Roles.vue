@@ -85,7 +85,16 @@
     <el-dialog
       title="权限分配"
       :visible.sync="dialogVisible">
-      <span>这是一段信息</span>
+      <!--
+        data 绑定到树上的数据 [{}]
+        props 告诉树上的节点要展示的属性是哪个，子节点对应的属性是哪个
+       -->
+      <el-tree
+        default-expand-all
+        show-checkbox
+        :data="data"
+        :props="defaultProps">
+      </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -100,7 +109,15 @@ export default {
     return {
       tableData: [],
       // 控制对话框的显示隐藏
-      dialogVisible: false
+      dialogVisible: false,
+      // 绑定树的数据
+      data: [],
+      defaultProps: {
+        // 树上的节点绑定对象的属性
+        label: 'authName',
+        // 对象的子节点绑定对象的属性
+        children: 'children'
+      }
     };
   },
   created() {
@@ -137,8 +154,11 @@ export default {
       }
     },
     // 点击分配权限，显示对话框
-    handleOpenDialog() {
+    async handleOpenDialog() {
       this.dialogVisible = true;
+      // 获取所有权限tree
+      const response = await this.$http.get('rights/tree');
+      this.data = response.data.data;
     }
   }
 };
