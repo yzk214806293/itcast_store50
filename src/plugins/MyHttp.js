@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Loading } from 'element-ui';
 
 const MyHttp = {};
 // vue的插件 必须有一个公共的install方法
@@ -8,9 +9,10 @@ MyHttp.install = function (Vue) {
 
   // Add a request interceptor
   // 添加请求的拦截器
+  let loadingInstance = null;
   axios.interceptors.request.use(function (config) {
     // Do something before request is sent
-    // 在请求发送之前，添加请求头token
+    // 1. 在请求发送之前，添加请求头token
     // 如果当前请求的地址是/login的时候，不给请求头加token
     // console.log(config.headers);
     // console.log(config.url);
@@ -19,6 +21,11 @@ MyHttp.install = function (Vue) {
       // 设置请求头
       config.headers.Authorization = token;
     }
+
+    // 2. 发送请求之前，显示loading
+    // console.log(this);
+    // this.$loading();
+    loadingInstance = Loading.service();
 
     return config;
   }, function (error) {
@@ -29,6 +36,8 @@ MyHttp.install = function (Vue) {
   // Add a response interceptor
   // 添加响应的拦截器
   axios.interceptors.response.use(function (response) {
+    // 1. 隐藏加载提示
+    loadingInstance.close();
     // Do something with response data
     return response;
   }, function (error) {
