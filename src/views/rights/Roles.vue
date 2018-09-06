@@ -1,6 +1,7 @@
 <template>
   <el-card class="card">
-    hello
+    <my-breadcrumb level1="权限管理" level2="角色列表"></my-breadcrumb>
+    
   </el-card>
 </template>
 
