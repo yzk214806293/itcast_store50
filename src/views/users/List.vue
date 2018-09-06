@@ -171,24 +171,25 @@
         </el-form-item>
         <el-form-item label="请选择角色">
           <!-- 下拉框, currentRoleId默认为-1 -->
+          <!-- {{ currentRoleId }} -->
           <el-select v-model="currentRoleId" placeholder="请选择">
-            <el-option>
+            <el-option
               label="请选择"
-              value="-1"
+              :value="-1" disabled>
             </el-option>
-            <el-option>
-              label="大学"
-              value="1"
-            </el-option>
-            <el-option>
-              label="小学"
-              value="2"
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
             </el-option>
             <!-- <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              label="大学"
+              value="1">
+            </el-option>
+            <el-option
+              label="小学"
+              value="2">
             </el-option> -->
           </el-select>
         </el-form-item>
@@ -242,7 +243,9 @@ export default {
         ]
       },
       // 绑定下拉框
-      currentRoleId: -1
+      currentRoleId: -1,
+      // 绑定下拉框的数据（所有的角色）
+      options: []
     };
   },
   created() {
@@ -406,8 +409,12 @@ export default {
       }
     },
     // 点击分配角色，打开分配角色的对话框
-    handleOpenSetRoleDialog() {
+    async handleOpenSetRoleDialog(user) {
       this.setRoleDialogFormVisible = true;
+      this.formData.username = user.username;
+      // 发送请求获取所有的角色
+      const response = await this.$http.get('roles');
+      this.options = response.data.data;
     }
   }
 };
