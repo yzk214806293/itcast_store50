@@ -19,7 +19,8 @@
             <el-col :span="4">
               <!-- 显示一级权限的名字 -->
               <el-tag
-                closable>{{ level1.authName }}</el-tag>
+                closable
+                @close="handleClose(scope.row, level1.id)">{{ level1.authName }}</el-tag>
             </el-col>
             <el-col :span="20">
               <!-- 二级权限 -->
@@ -30,6 +31,7 @@
                   <!-- 显示二级权限的名称 -->
                   <el-tag
                     closable
+                    @close="handleClose(scope.row, level2.id)"
                     type="success">
                     {{ level2.authName }}
                   </el-tag>
@@ -37,6 +39,7 @@
                 <el-col :span="20">
                   <!-- 三级权限 -->
                   <el-tag
+                    @close="handleClose(scope.row, level3.id)"
                     class="level3"
                     closable
                     type="warning"
@@ -101,6 +104,12 @@ export default {
       } else {
         this.$message.error(msg);
       }
+    },
+    // 删除当前角色对应的权限
+    handleClose(role, rightId) {
+      // role 当前行对应的角色对象
+      // rightId 当前权限的id
+      alert(rightId);
     }
   }
 };
