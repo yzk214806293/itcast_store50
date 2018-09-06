@@ -257,10 +257,10 @@ export default {
     async loadData() {
       // 请求开始
       this.loading = true;
-      // 设置token
-      const token = sessionStorage.getItem('token');
-      // 设置请求头
-      this.$http.defaults.headers.common['Authorization'] = token;
+      // // 设置token
+      // const token = sessionStorage.getItem('token');
+      // // 设置请求头
+      // this.$http.defaults.headers.common['Authorization'] = token;
 
       const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
       // 请求结束
