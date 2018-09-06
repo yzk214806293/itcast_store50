@@ -47,6 +47,22 @@ export default {
     return {
       tableData: []
     };
+  },
+  created() {
+    this.loadData();
+  },
+  methods: {
+    // 加载表格数据
+    async loadData() {
+      const response = await this.$http.get('roles');
+
+      const { meta: { msg, status } } = response.data;
+      if (status === 200) {
+        this.tableData = response.data.data;
+      } else {
+        this.$message.error(msg);
+      }
+    }
   }
 };
 </script>
