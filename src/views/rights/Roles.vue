@@ -93,6 +93,7 @@
         default-checked-keys 设置树上的哪些节点被选中
        -->
       <el-tree
+        ref="tree"
         default-expand-all
         show-checkbox
         node-key="id"
@@ -102,7 +103,7 @@
       </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleSetRights">确 定</el-button>
       </span>
     </el-dialog>
   </el-card>
@@ -123,7 +124,9 @@ export default {
         // 对象的子节点绑定对象的属性
         children: 'children'
       },
-      checkedKeys: []
+      checkedKeys: [],
+      // 记录当前角色的id
+      currentRoleId: -1
     };
   },
   created() {
@@ -179,6 +182,33 @@ export default {
         });
       });
       this.checkedKeys = arr;
+      // 记录当前角色的id
+      this.currentRoleId = role.id;
+    },
+    // 点击确定按钮，给当前角色设置权限
+    async handleSetRights() {
+      // post roles/:roleId/rights  rids权限id列表，每个id使用,分割
+
+      // 获取树上选中和半选的节点的id
+      const arr1 = this.$refs.tree.getCheckedKeys();
+      const arr2 = this.$refs.tree.getHalfCheckedKeys();
+
+      const arr = [...arr1, ...arr2];
+      const rids = arr.join(',');
+
+      // 发送请求
+      const response = await this.$http.post(`roles/${this.currentRoleId}/rights`, {
+        rids: rids
+      });
+      const { meta: { msg, status } } = response.data;
+      if (status === 200) {
+        // 成功
+        this.$message.success(msg);
+        this.dialogVisible = false;
+        this.loadData();
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
