@@ -76,10 +76,21 @@
         <template slot-scope="scope">
           <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" plain></el-button>
-          <el-button size="mini" type="success" icon="el-icon-check" plain></el-button>
+          <el-button @click="handleOpenDialog" size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 对话框 -->
+    <el-dialog
+      title="权限分配"
+      :visible.sync="dialogVisible">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -87,7 +98,9 @@
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      // 控制对话框的显示隐藏
+      dialogVisible: false
     };
   },
   created() {
@@ -122,6 +135,10 @@ export default {
         // 失败
         this.$message.error(msg);
       }
+    },
+    // 点击分配权限，显示对话框
+    handleOpenDialog() {
+      this.dialogVisible = true;
     }
   }
 };
