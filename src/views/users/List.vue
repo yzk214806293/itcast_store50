@@ -375,6 +375,8 @@ export default {
       for (let key in this.formData) {
         this.formData[key] = '';
       }
+      // 重置下拉框中默认显示的项
+      this.currentRoleId = -1;
     },
     // 点击编辑按钮，打开修改用户的对话框
     handleOpenEditDialog(user) {
@@ -415,6 +417,14 @@ export default {
       // 发送请求获取所有的角色
       const response = await this.$http.get('roles');
       this.options = response.data.data;
+
+      // 设置当前用户默认的角色
+      // console.log(user);
+      // this.currentRoleId
+      // 根据用户id，查询用户信息（找到当前用户对应的角色id）
+      const res = await this.$http.get(`users/${user.id}`);
+      // console.log(res.data);
+      this.currentRoleId = res.data.data.rid;
     }
   }
 };
