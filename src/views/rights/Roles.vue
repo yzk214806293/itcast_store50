@@ -76,7 +76,7 @@
         <template slot-scope="scope">
           <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" plain></el-button>
-          <el-button @click="handleOpenDialog" size="mini" type="success" icon="el-icon-check" plain></el-button>
+          <el-button @click="handleOpenDialog(scope.row)" size="mini" type="success" icon="el-icon-check" plain></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -88,10 +88,15 @@
       <!--
         data 绑定到树上的数据 [{}]
         props 告诉树上的节点要展示的属性是哪个，子节点对应的属性是哪个
+        
+        如果要使用default-checked-keys，必须要设置tree的node-key给每一个节点设置一个唯一值
+        default-checked-keys 设置树上的哪些节点被选中
        -->
       <el-tree
         default-expand-all
         show-checkbox
+        node-key="id"
+        :default-checked-keys="checkedKeys"
         :data="data"
         :props="defaultProps">
       </el-tree>
@@ -117,7 +122,8 @@ export default {
         label: 'authName',
         // 对象的子节点绑定对象的属性
         children: 'children'
-      }
+      },
+      checkedKeys: []
     };
   },
   created() {
@@ -154,11 +160,25 @@ export default {
       }
     },
     // 点击分配权限，显示对话框
-    async handleOpenDialog() {
+    async handleOpenDialog(role) {
       this.dialogVisible = true;
       // 获取所有权限tree
       const response = await this.$http.get('rights/tree');
       this.data = response.data.data;
+
+      // 设置当前角色所拥有的权限被选中
+      // 当前角色role所拥有的三级权限的id
+      const arr = [];
+      // 遍历一级权限
+      role.children.forEach((level1) => {
+        // 遍历二级权限
+        level1.children.forEach((level2) => {
+          level2.children.forEach((level3) => {
+            arr.push(level3.id);
+          })
+        });
+      });
+      this.checkedKeys = arr;
     }
   }
 };
