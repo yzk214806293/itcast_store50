@@ -6,7 +6,7 @@
     <el-button
       style="margin-top: 10px; margin-bottom: 10px"
       type="success"
-      @click="addDialogFormVisible = true"
+      @click="handleOpenAddDialog"
       plain>添加分类</el-button>
     <!-- 表格 -->
     <el-table
@@ -86,12 +86,14 @@
             @change 选中项改变的时候执行
             change-on-select 选择任意一级菜单的选项
             ？还有一个属性呢
+            props 对象，设置多级下拉框显示的属性，value对象的属性，子节点对应的属性
            -->
           <el-cascader
             clearable
             change-on-select
             expand-trigger="hover"
             :options="options"
+            :props="{label: 'cat_name', value: 'cat_id', children: 'children'}"
             v-model="selectedOptions">
           </el-cascader>
         </el-form-item>
@@ -157,6 +159,12 @@ export default {
       this.pagenum = val;
       this.loadData();
       console.log(`当前页: ${val}`);
+    },
+    // 点击添加按钮，弹出添加对话框，加载多级下拉框数据
+    async handleOpenAddDialog() {
+      this.addDialogFormVisible = true;
+      const response = await this.$http.get('categories?type=2');
+      this.options = response.data.data;
     }
   }
 };
