@@ -88,6 +88,7 @@
             ？还有一个属性呢
             props 对象，设置多级下拉框显示的属性，value对象的属性，子节点对应的属性
            -->
+          {{ selectedOptions }}
           <el-cascader
             clearable
             change-on-select
@@ -100,7 +101,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addDialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleAdd">确 定</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -165,6 +166,45 @@ export default {
       this.addDialogFormVisible = true;
       const response = await this.$http.get('categories?type=2');
       this.options = response.data.data;
+    },
+    // 点击确定按钮，添加分类
+    async handleAdd() {
+      // post categories. 
+      // 参数 
+      // cat_pid 添加的分类的父id
+      // cat_name 分类的名称  - 绑定的文本框
+      // cat_level 分类的层级0, 1, 2
+
+      // cat_level  0 1 2
+      // cat_level  this.selectedOptions.length === 0 -- 0  一级
+      // cat_level  this.selectedOptions.length === 1 -- 1  二级
+      // cat_level  this.selectedOptions.length === 2 -- 2  三级
+      this.form.cat_level = this.selectedOptions.length;
+
+      // cat_pid  一级分类 0
+      // cat_pid  二级分类 this.selectedOptions[0]
+      // cat_pid  三级分类 this.selectedOptions[1]
+      if (this.selectedOptions.length === 0) {
+        // 要添加一级分类
+        this.form.cat_pid = 0;
+      } else if (this.selectedOptions.length === 1) {
+        // 要添加二级分类
+        this.form.cat_pid = this.selectedOptions[0];
+      } else if (this.selectedOptions.length === 2) {
+        // 要添加三级分类
+        this.form.cat_pid = this.selectedOptions[1];
+      }
+      // 发送异步请求，添加商品分类
+      const response = await this.$http.post('categories', this.form);
+      const { meta: { msg, status } } = response.data;
+      if (status === 201) {
+        // 添加成功
+        this.$message.success(msg);
+        this.addDialogFormVisible = false;
+        this.loadData();
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
