@@ -10,11 +10,22 @@
       stripe
       :data="tableData"
       style="width: 100%">
-      <el-table-column
+      <!--
+        treeKey 作用是设置每一项的唯一标示
+        parentKey 绑定到父id的属性
+        levelKey  绑定到不同级别的属性
+        indentSize 设置不同级别之间的缩进
+        childKey： 默认值是children，标示子节点的属性
+       -->
+      <el-table-tree-column
+        treeKey="cat_id"
+        parentKey="cat_pid"
+        levelKey="cat_level"
+        :indentSize="20"
         prop="cat_name"
         label="分类名称"
         width="300">
-      </el-table-column>
+      </el-table-tree-column>
       <el-table-column
         label="级别"
         width="180">
@@ -43,7 +54,14 @@
 </template>
 
 <script>
+// 配置tree grid局部组件
+import ElTreeGrid from 'element-tree-grid';
+
 export default {
+  // 注册局部组件
+  components: {
+    'el-table-tree-column': ElTreeGrid
+  },
   data() {
     return {
       tableData: []
