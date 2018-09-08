@@ -39,8 +39,10 @@
         label="商品重量">
       </el-table-column>
       <el-table-column
-        prop="add_time"
         label="创建时间">
+        <template slot-scope="scope">
+          {{ scope.row.add_time | fmtDate('YYYY-MM-DD HH:mm:ss') }}
+        </template>
       </el-table-column>
       <el-table-column
         label="操作">
@@ -59,13 +61,34 @@ export default {
     return {
       tableData: []
     };
+  },
+  created() {
+    this.loadData();
+  },
+  methods: {
+    // 发送异步请求，获取商品列表
+    async loadData() {
+      const response = await this.$http.get('/goods?pagenum=1&pagesize=10');
+      const { meta: { msg, status } } = response.data;
+      if (status === 200) {
+        // 成功
+        this.tableData = response.data.data.goods;
+      } else {
+        this.$message.error(msg);
+      }
+    }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .row {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.el-table .cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
