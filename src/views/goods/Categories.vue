@@ -79,6 +79,21 @@
         </el-form-item>
         <el-form-item label="父级分类">
           <!-- 多级下拉框 -->
+          <!--
+            expand-trigger 触发（展开）的事件
+            options：提供展示的数据，是数组
+            v-model 双向绑定，多级下拉框，绑定上的是多个值，数组
+            @change 选中项改变的时候执行
+            change-on-select 选择任意一级菜单的选项
+            ？还有一个属性呢
+           -->
+          <el-cascader
+            clearable
+            change-on-select
+            expand-trigger="hover"
+            :options="options"
+            v-model="selectedOptions">
+          </el-cascader>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,7 +123,11 @@ export default {
       // 控制添加对话框的显示隐藏
       addDialogFormVisible: false,
       form: {
-      }
+        cat_name: ''
+      },
+      // 绑定多级下拉框
+      options: [],
+      selectedOptions: []
     };
   },
   created() {
