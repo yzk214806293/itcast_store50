@@ -220,12 +220,19 @@ export default {
         // 在此处，就是promise对象的then的回调函数中执行的代码
         // 点击完确定按钮要执行的代码
         // alert('点了确定');
+        const response = await this.$http.delete(`categories/${cat.cat_id}`);
+        const { meta: { msg, status } } = response.data;
+        if (status === 200) {
+          // 删除成功
+          this.$message.success(msg);
+          this.loadData();
+        } else {
+          this.$message.error(msg);
+        }
       } catch (err) {
         // 点击了取消按钮执行
         // alert('点击了取消按钮');
       }
-      
-      
     }
   }
 };
