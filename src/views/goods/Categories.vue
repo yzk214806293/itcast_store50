@@ -50,7 +50,7 @@
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button @click="editDialogFormVisible = true" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
+          <el-button @click="handleOpenEditDialog(scope.row)" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button @click="handleDelete(scope.row)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
         </template>
       </el-table-column>
@@ -252,6 +252,12 @@ export default {
         // 点击了取消按钮执行
         // alert('点击了取消按钮');
       }
+    },
+    // 点击编辑按钮，弹出对话框，给文本框赋值
+    handleOpenEditDialog(cat) {
+      // cat 当前编辑的分类对象
+      this.editDialogFormVisible = true;
+      this.form.cat_name = cat.cat_name;
     }
   }
 };
