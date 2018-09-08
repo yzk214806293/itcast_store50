@@ -215,10 +215,7 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  height: 100%;
-  overflow: auto;
-}
+
 .level3 {
   margin-right: 5px;
   margin-bottom: 5px;

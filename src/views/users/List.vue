@@ -449,9 +449,6 @@ export default {
 </script>
 
 <style>
-.card {
-  height: 100%;
-}
 .row {
   margin-top: 15px;
   margin-bottom: 15px;
