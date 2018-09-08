@@ -52,6 +52,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
   </el-card>
 </template>
 
@@ -59,7 +69,11 @@
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      // 分页数据
+      pagenum: 1,
+      pagesize: 10,
+      total: 0
     };
   },
   created() {
@@ -68,14 +82,27 @@ export default {
   methods: {
     // 发送异步请求，获取商品列表
     async loadData() {
-      const response = await this.$http.get('/goods?pagenum=1&pagesize=10');
+      const response = await this.$http.get(`/goods?pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
       const { meta: { msg, status } } = response.data;
       if (status === 200) {
         // 成功
         this.tableData = response.data.data.goods;
+        // total
+        this.total = response.data.data.total;
       } else {
         this.$message.error(msg);
       }
+    },
+    // 分页方法
+    handleSizeChange(val) {
+      this.pagesize = val;
+      this.loadData();
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.pagenum = val;
+      this.loadData();
+      console.log(`当前页: ${val}`);
     }
   }
 };
