@@ -50,7 +50,7 @@
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
+          <el-button @click="editDialogFormVisible = true" size="mini" type="primary" icon="el-icon-edit" plain></el-button>
           <el-button @click="handleDelete(scope.row)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
         </template>
       </el-table-column>
@@ -104,6 +104,23 @@
         <el-button type="primary" @click="handleAdd">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 编辑的对话框 -->
+    <el-dialog
+      title="修改商品分类"
+      :visible.sync="editDialogFormVisible">
+      <el-form
+        label-width="80px"
+        :model="form">
+        <el-form-item label="分类名称">
+          <el-input v-model="form.cat_name" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editDialogFormVisible = false">取 消</el-button>
+        <el-button type="primary">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -125,6 +142,8 @@ export default {
       total: 0,
       // 控制添加对话框的显示隐藏
       addDialogFormVisible: false,
+      // 控制编辑对话框的显示隐藏
+      editDialogFormVisible: false,
       form: {
         cat_name: ''
       },
@@ -169,8 +188,8 @@ export default {
     },
     // 点击确定按钮，添加分类
     async handleAdd() {
-      // post categories. 
-      // 参数 
+      // post categories.
+      // 参数
       // cat_pid 添加的分类的父id
       // cat_name 分类的名称  - 绑定的文本框
       // cat_level 分类的层级0, 1, 2
