@@ -88,7 +88,7 @@
       <!--
         data 绑定到树上的数据 [{}]
         props 告诉树上的节点要展示的属性是哪个，子节点对应的属性是哪个
-        
+
         如果要使用default-checked-keys，必须要设置tree的node-key给每一个节点设置一个唯一值
         default-checked-keys 设置树上的哪些节点被选中
        -->
@@ -178,7 +178,7 @@ export default {
         level1.children.forEach((level2) => {
           level2.children.forEach((level3) => {
             arr.push(level3.id);
-          })
+          });
         });
       });
       this.checkedKeys = arr;

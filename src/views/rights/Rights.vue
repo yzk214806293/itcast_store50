@@ -1,7 +1,7 @@
 <template>
   <el-card class="card">
     <my-breadcrumb level1="权限管理" level2="权限列表"></my-breadcrumb>
-    
+
     <!-- 表格 -->
     <el-table
       border
