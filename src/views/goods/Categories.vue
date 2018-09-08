@@ -6,6 +6,7 @@
     <el-button style="margin-top: 10px; margin-bottom: 10px" type="success" plain>添加分类</el-button>
     <!-- 表格 -->
     <el-table
+      :height="530"
       border
       stripe
       :data="tableData"
@@ -56,7 +57,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pagenum"
-      :page-sizes="[100, 200, 300, 400]"
+      :page-sizes="[9, 20, 30, 40]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -78,7 +79,7 @@ export default {
       tableData: [],
       // 分页数据
       pagenum: 1,
-      pagesize: 10,
+      pagesize: 9,
       total: 0
     };
   },
@@ -88,20 +89,26 @@ export default {
   methods: {
     // 加载商品分类数据
     async loadData() {
-      const response = await this.$http.get('categories?type=3&pagenum=1&pagesize=5');
+      const response = await this.$http.get(`categories?type=3&pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
 
       const { meta: { msg, status } } = response.data;
       if (status === 200) {
         this.tableData = response.data.data.result;
+        // 获取响应之后，设置total的值
+        this.total = response.data.data.total;
       } else {
         this.$message.error(msg);
       }
     },
     // 分页方法
     handleSizeChange(val) {
+      this.pagesize = val;
+      this.loadData();
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.pagenum = val;
+      this.loadData();
       console.log(`当前页: ${val}`);
     }
   }
