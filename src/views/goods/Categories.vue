@@ -51,7 +51,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" icon="el-icon-edit" plain></el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" plain></el-button>
+          <el-button @click="handleDelete(scope.row)" size="mini" type="danger" icon="el-icon-delete" plain></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -205,6 +205,27 @@ export default {
       } else {
         this.$message.error(msg);
       }
+    },
+    // 点击删除按钮，删除分类
+    async handleDelete(cat) {
+      // cat 要删除的分类对象
+      // 删除提示
+      try {
+        await this.$confirm('确认要删除当前商品分类?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        });
+
+        // 在此处，就是promise对象的then的回调函数中执行的代码
+        // 点击完确定按钮要执行的代码
+        // alert('点了确定');
+      } catch (err) {
+        // 点击了取消按钮执行
+        // alert('点击了取消按钮');
+      }
+      
+      
     }
   }
 };
