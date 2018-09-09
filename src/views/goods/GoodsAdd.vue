@@ -198,16 +198,37 @@ export default {
     },
     // 上传图片使用的方法
     handleRemove(file, fileList) {
-      console.log(file);
-      console.log(fileList);
+      // console.log(file);
+      // console.log(fileList);
+      // 把图片从formData.pics中移除
+
+      // 找到删除图片在数组中的索引
+      const index = this.formData.pics.findIndex((item) => {
+        // findIndex 找的是满足条件的那一项的索引
+        return item.pic === file.response.data.tmp_path;
+        // if (item.pic === file.response.data.tmp_path) {
+        //   return true;
+        // }
+      });
+      this.formData.pics.splice(index, 1);
+      console.log(this.formData.pics);
     },
     handleSuccess(response, file, fileList) {
-      // 服务器返回的数据
-      console.log(response);
-      // 上传的文件对象
-      console.log(file);
-      // 数组，包含了file
-      console.log(fileList);
+      // 设置formData中的pics
+      // "pics":[
+      // {"pic":"/tmp_uploads/30f08d52c551ecb447277eae232304b8"}
+      // ],
+      this.formData.pics.push({
+        pic: response.data.tmp_path
+      });
+      console.log(this.formData.pics);
+
+      // // 服务器返回的数据
+      // console.log(response);
+      // // 上传的文件对象
+      // console.log(file);
+      // // 数组，包含了file
+      // console.log(fileList);
     }
   }
 };
