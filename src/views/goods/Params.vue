@@ -15,10 +15,11 @@
       <el-col :span="24">
         请选择商品分类：
         <el-cascader
+          clearable
           :show-all-levels="false"
           expand-trigger="hover"
           :options="options"
-          :props="{}"
+          :props="{ label: 'cat_name', value: 'cat_id' }"
           v-model="selectedOptions"
           @change="handleChange">
         </el-cascader>
@@ -28,7 +29,9 @@
     <!-- {{ activeTab }} -->
     <el-tabs v-model="activeTab" @tab-click="handleClick">
       <el-tab-pane label="动态参数" name="many">
-        <el-button type="primary">添加动态参数</el-button>
+        <el-button
+          :disabled="selectedOptions.length !== 3"
+          type="primary">添加动态参数</el-button>
         <el-table
           border
           stripe
@@ -58,7 +61,9 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="静态参数" name="only">
-        <el-button type="primary">添加静态参数</el-button>
+        <el-button
+          :disabled="selectedOptions.length !== 3"
+          type="primary">添加静态参数</el-button>
         <el-table
           border
           stripe
@@ -102,12 +107,20 @@ export default {
       staticParams: []
     };
   },
+  created() {
+    this.loadOptions();
+  },
   methods: {
     // 多级下拉发生改变的时候执行
     handleChange() {
     },
     // 点击tab的时候执行
     handleClick(tab) {
+    },
+    // 加载商品分类
+    async loadOptions() {
+      const response = await this.$http.get('categories?type=3');
+      this.options = response.data.data;
     }
   }
 };
