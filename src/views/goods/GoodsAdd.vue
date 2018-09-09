@@ -84,7 +84,21 @@
             <el-input v-model="item.attr_vals"></el-input>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品图片">商品图片</el-tab-pane>
+        <el-tab-pane label="商品图片">
+          <!-- 商品图片 -->
+          <!--
+            action是接口的地址，全部的地址
+           -->
+          <el-upload
+            action="http://localhost:8888/api/private/v1/upload"
+            :on-remove="handleRemove"
+            :on-success="handleSuccess"
+            :headers="headers"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </el-tab-pane>
         <el-tab-pane label="商品内容">商品内容</el-tab-pane>
       </el-tabs>
     </el-form>
@@ -102,7 +116,8 @@ export default {
         goods_number: '',
         goods_weight: '',
         // 用,分割的分类id列表
-        goods_cat: ''
+        goods_cat: '',
+        pics: []
       },
       // 绑定多级下拉的数据
       options: [],
@@ -111,7 +126,11 @@ export default {
       // 存储动态参数
       dynamicParams: [],
       // 存储静态参数
-      staticParams: []
+      staticParams: [],
+      // 给上传组件，提供请求头
+      headers: {
+        Authorization: sessionStorage.getItem('token')
+      }
     };
   },
   created() {
@@ -173,6 +192,19 @@ export default {
         // 清空数组
         this.selectedOptions.length = 0;
       }
+    },
+    // 上传图片使用的方法
+    handleRemove(file, fileList) {
+      console.log(file);
+      console.log(fileList);
+    },
+    handleSuccess(response, file, fileList) {
+      // 服务器返回的数据
+      console.log(response);
+      // 上传的文件对象
+      console.log(file);
+      // 数组，包含了file
+      console.log(fileList);
     }
   }
 };
