@@ -43,7 +43,7 @@
                 v-for="(tag, index) in scope.row.params"
                 :key="tag"
                 closable
-                @close="handleClose(scope.row.params, index)">
+                @close="handleClose(scope.row.params, index, scope.row)">
                 {{tag}}
               </el-tag>
             </template>
@@ -156,10 +156,26 @@ export default {
       }
     },
     // 点击tag的关闭按钮的时候执行
-    handleClose(params, index) {
+    async handleClose(params, index, attr) {
       // 从数组中把当前项删除
       params.splice(index, 1);
       // console.log(params);
+      // 服务器发送请求
+      // put categories/分类的id/attributes/参数的id
+      // 请求体  attr_name，attr_sel，attr_vals
+      const response = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes/${attr.attr_id}`, {
+        attr_name: attr.attr_name,
+        attr_sel: attr.attr_sel,
+        attr_vals: params.join(',')
+      });
+      attr.attr_vals = params.join(',');
+
+      const { meta: { status, msg } } = response.data;
+      if (status === 200) {
+        this.$message.success(msg);
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
