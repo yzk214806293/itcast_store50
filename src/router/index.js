@@ -13,6 +13,8 @@ import Rights from '@/views/rights/Rights';
 import Roles from '@/views/rights/Roles';
 import Categories from '@/views/goods/Categories';
 import Goods from '@/views/goods/Goods';
+import GoodsAdd from '@/views/goods/GoodsAdd';
+
 import { Message } from 'element-ui';
 
 Vue.use(Router);
@@ -49,6 +51,11 @@ const router = new Router({
           name: 'goods',
           path: '/goods',
           component: Goods
+        },
+        {
+          name: 'goodsadd',
+          path: '/goods/add',
+          component: GoodsAdd
         }
       ]
     }

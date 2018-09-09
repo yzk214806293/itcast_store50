@@ -12,7 +12,7 @@
           placeholder="请输入内容">
           <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
-        <el-button type="success" plain>添加商品</el-button>
+        <el-button @click="$router.push('/goods/add')" type="success" plain>添加商品</el-button>
       </el-col>
     </el-row>
     <!-- 表格 -->
