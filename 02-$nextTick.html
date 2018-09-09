@@ -13,6 +13,14 @@
   </div>
   <script src="./node_modules/vue/dist/vue.js"></script>
   <script>
+    console.log('a');
+    setTimeout(() => {
+      console.log('settimeout');
+    }, 0);
+    console.log('b');
+
+
+
     new Vue({
       el: '#app',
       data: {
@@ -22,10 +30,19 @@
         handle() {
           this.inputVisible = true;
           
+          setTimeout(() => {
+            // console.log(this.$refs.input);
+            // this.$refs.input.focus();
+            console.log('setTimeout');
+          }, 0);
+
           // 等待下一次界面更新的时候，才能够获取到显示的文本框
+
+          // 当执行栈上的任务执行完毕后，会理解调用nextTick
           this.$nextTick(() => {
-            console.log(this.$refs.input);
-            this.$refs.input.focus();
+            // console.log(this.$refs.input);
+            // this.$refs.input.focus();
+            console.log('nextTick');
           });
         }
       }
