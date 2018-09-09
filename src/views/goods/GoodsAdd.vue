@@ -34,25 +34,26 @@
         <el-tab-pane label="基本信息">
           <!-- 基本信息 -->
           <el-form-item label="商品名称">
-            <el-input v-model="formData"></el-input>
+            <el-input v-model="formData.goods_name"></el-input>
           </el-form-item>
           <el-form-item label="商品价格">
-            <el-input v-model="formData"></el-input>
+            <el-input v-model="formData.goods_price"></el-input>
           </el-form-item>
           <el-form-item label="商品重量">
-            <el-input v-model="formData"></el-input>
+            <el-input v-model="formData.goods_weight"></el-input>
           </el-form-item>
           <el-form-item label="商品数量">
-            <el-input v-model="formData"></el-input>
+            <el-input v-model="formData.goods_number"></el-input>
           </el-form-item>
           <el-form-item label="商品分类">
             <!-- 多级下拉框 -->
+            {{ selectedOptions }}
             <el-cascader
               clearable
               expand-trigger="hover"
               :options="options"
               :props="{ label: 'cat_name', value: 'cat_id', children: 'children' }"
-              v-model="selectedOptions2">
+              v-model="selectedOptions">
             </el-cascader>
           </el-form-item>
         </el-tab-pane>
@@ -71,9 +72,17 @@ export default {
     return {
       active: 0,
       formData: {
+        goods_name: '',
+        goods_price: '',
+        goods_number: '',
+        goods_weight: '',
+        // 用,分割的分类id列表
+        goods_cat: ''
       },
       // 绑定多级下拉的数据
-      options: []
+      options: [],
+      // 绑定下拉框中的option
+      selectedOptions: []
     };
   },
   methods: {
