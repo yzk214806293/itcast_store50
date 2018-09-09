@@ -147,6 +147,9 @@ export default {
 
       // 如果当前的标签页是 商品参数/商品属性
       if (tab.index === '1' || tab.index === '2') {
+        // 清空静态参数 和 动态参数
+        this.dynamicParams.length = 0;
+        this.staticParams.length = 0;
         // 判断当前的多级下拉中是否选择了3级分类
         if (this.selectedOptions.length < 3) {
           this.$message.warning('请选择商品的三级分类');
@@ -171,7 +174,7 @@ export default {
         this.dynamicParams.forEach((item) => {
           // ab,bb,ccc  ->  [ab, bb, cc]
           // item.attr_vals
-          item.attr_vals = item.attr_vals.length === '' ? [] : item.attr_vals.split(',');
+          item.attr_vals = item.attr_vals.length === 0 ? [] : item.attr_vals.split(',');
         });
       } else {
         // 加载静态参数
@@ -186,7 +189,7 @@ export default {
     // 多级下拉选中的内容发生变化的时候执行
     handleChange() {
       // 判断当前选择的是否是3级分类
-      if (this.selectedOptions.length !== 3) {
+      if (this.selectedOptions.length !== 3 && this.selectedOptions.length !== 0) {
         // 提示
         this.$message.warning('请选择商品的三级分类');
         // 清空数组
