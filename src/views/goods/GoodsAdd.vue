@@ -58,7 +58,17 @@
             </el-cascader>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品参数">商品参数</el-tab-pane>
+        <el-tab-pane label="商品参数">
+          <el-form-item label="板式">
+            <el-checkbox-group v-model="checklist">
+              <el-checkbox border label="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B"></el-checkbox>
+              <el-checkbox label="复选框 C"></el-checkbox>
+              <el-checkbox label="禁用" disabled></el-checkbox>
+              <el-checkbox label="选中且禁用" disabled></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-tab-pane>
         <el-tab-pane label="商品属性">商品属性</el-tab-pane>
         <el-tab-pane label="商品图片">商品图片</el-tab-pane>
         <el-tab-pane label="商品内容">商品内容</el-tab-pane>
@@ -83,7 +93,12 @@ export default {
       // 绑定多级下拉的数据
       options: [],
       // 绑定下拉框中的option
-      selectedOptions: []
+      selectedOptions: [],
+      checklist: ['复选框 A'],
+      // 存储动态参数
+      dynamicParams: [],
+      // 存储静态参数
+      staticParams: []
     };
   },
   created() {
@@ -103,9 +118,26 @@ export default {
         // 判断当前的多级下拉中是否选择了3级分类
         if (this.selectedOptions.length < 3) {
           this.$message.warning('请选择商品的三级分类');
+        } else {
+          // 确保选择了三级分类
+          // 加载商品参数
+          this.loadParams();
         }
       }
+    },
+    // 加载分类参数（动态参数和静态参数）
+    async loadParams() {
+      const response = await this.$http.get(`categories/${this.selectedOptions[2]}/attributes?sel=many`);
 
+      this.dynamicParams = response.data.data;
+      // console.log(this.dynamicParams);
+      // 把动态参数的attr_vals 转换成数组，方便界面上去遍历
+      // 遍历dynamicParams数组，把attr_vals转换成数组
+      this.dynamicParams.forEach((item) => {
+        // ab,bb,ccc
+        // item.attr_vals
+        item.attr_vals = item.attr_vals.length === '' ? [] : item.attr_vals.split(',');
+      });
     },
     // 加载多级下拉的分类数据
     async loadOptions() {
