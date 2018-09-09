@@ -40,10 +40,10 @@
           <el-table-column type="expand">
             <template slot-scope="scope">
               <el-tag
-                v-for="tag in scope.row.params"
+                v-for="(tag, index) in scope.row.params"
                 :key="tag"
                 closable
-                @close="handleClose">
+                @close="handleClose(scope.row.params, index)">
                 {{tag}}
               </el-tag>
             </template>
@@ -145,7 +145,10 @@ export default {
         this.dynamicParams.forEach((item) => {
           // item.attr_vals
           // 动态给item对象增加了一个属性params
-          item.params = item.attr_vals.length === 0 ? [] : item.attr_vals.split(',');
+          // item.params = item.attr_vals.length === 0 ? [] : item.attr_vals.split(',');
+          const arr = item.attr_vals.length === 0 ? [] : item.attr_vals.split(',');
+
+          this.$set(item, 'params', arr);
         });
       } else {
         // 静态参数赋值
@@ -153,7 +156,10 @@ export default {
       }
     },
     // 点击tag的关闭按钮的时候执行
-    handleClose() {
+    handleClose(params, index) {
+      // 从数组中把当前项删除
+      params.splice(index, 1);
+      // console.log(params);
     }
   }
 };
