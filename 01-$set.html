@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="person.name">
+    {{ person.name }}
+
+    <hr>
+    <input type="text" v-model="person.age">
+    {{ person.age }}
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      created() {
+        // 动态给对象增加的属性，不是响应式的数据
+        // 因为vue不会跟踪age 的值的变化
+        // this.person.age = 18;
+        // console.log(this.person);
+
+
+        // 通过this.$set() 给对象增加一个响应式的数据
+        this.$set(this.person, 'age', 18);
+        console.log(this.person);
+      },
+      data: {
+        person: {
+          name: 'zs',
+          a: 18
+        }
+      }
+    });
+  </script>
+</body>
+</html>
