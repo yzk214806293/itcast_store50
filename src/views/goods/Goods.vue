@@ -1,7 +1,7 @@
 <template>
   <el-card class="card">
     <!-- 面包屑 -->
-    <my-breadcrumb level1="商品管理" level2="商品分类"></my-breadcrumb>
+    <my-breadcrumb level1="商品管理" level2="商品列表"></my-breadcrumb>
     <!-- 搜索 -->
     <el-row class="row">
       <el-col :span="24">
