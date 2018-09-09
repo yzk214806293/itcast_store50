@@ -99,14 +99,29 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容">商品内容</el-tab-pane>
+        <el-tab-pane label="商品内容">
+          <el-button>添加商品</el-button>
+          <quill-editor
+            v-model="formData.goods_introduce">
+          </quill-editor>
+        </el-tab-pane>
       </el-tabs>
     </el-form>
   </el-card>
 </template>
 
 <script>
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
+import { quillEditor } from 'vue-quill-editor';
+
 export default {
+  // 注册局部组件
+  components: {
+    quillEditor
+  },
   data() {
     return {
       active: 0,
@@ -117,7 +132,8 @@ export default {
         goods_weight: '',
         // 用,分割的分类id列表
         goods_cat: '',
-        pics: []
+        pics: [],
+        goods_introduce: ''
       },
       // 绑定多级下拉的数据
       options: [],
@@ -235,6 +251,9 @@ export default {
 </script>
 
 <style>
+.ql-editor {
+  height: 400px;
+}
 .el-step__title {
   /* 这个是step组件的样式，如果加上scoped之后不起作用，可以放到全局样式中 */
   font-size: 12px;
