@@ -59,13 +59,19 @@
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="商品参数">
-          <el-form-item label="板式">
-            <el-checkbox-group v-model="checklist">
-              <el-checkbox border label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
-              <el-checkbox label="复选框 C"></el-checkbox>
-              <el-checkbox label="禁用" disabled></el-checkbox>
-              <el-checkbox label="选中且禁用" disabled></el-checkbox>
+          <!-- 商品参数-动态参数 -->
+          <el-form-item
+            v-for="item in dynamicParams"
+            :key="item.attr_id"
+            :label="item.attr_name">
+            {{ item.attr_vals }}
+            <el-checkbox-group v-model="item.attr_vals">
+              <el-checkbox
+                v-for="val in item.attr_vals"
+                :key="val"
+                border
+                :label="val">
+              </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-tab-pane>
@@ -94,7 +100,6 @@ export default {
       options: [],
       // 绑定下拉框中的option
       selectedOptions: [],
-      checklist: ['复选框 A'],
       // 存储动态参数
       dynamicParams: [],
       // 存储静态参数
@@ -134,7 +139,7 @@ export default {
       // 把动态参数的attr_vals 转换成数组，方便界面上去遍历
       // 遍历dynamicParams数组，把attr_vals转换成数组
       this.dynamicParams.forEach((item) => {
-        // ab,bb,ccc
+        // ab,bb,ccc  ->  [ab, bb, cc]
         // item.attr_vals
         item.attr_vals = item.attr_vals.length === '' ? [] : item.attr_vals.split(',');
       });
