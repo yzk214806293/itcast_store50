@@ -85,6 +85,10 @@ export default {
       selectedOptions: []
     };
   },
+  created() {
+    // 组件创建完毕，加载多级下拉的分类数据
+    this.loadOptions();
+  },
   methods: {
     // 点击tab标签页的时候执行
     handleTabClick(tab) {
@@ -92,6 +96,11 @@ export default {
       // console.log(tab);
       // tab.index  当前tab页的索引-字符串类型
       this.active = tab.index - 0;
+    },
+    // 加载多级下拉的分类数据
+    async loadOptions() {
+      const response = await this.$http.get('categories?type=3');
+      this.options = response.data.data;
     }
   }
 };
