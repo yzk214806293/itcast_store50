@@ -46,6 +46,16 @@
                 @close="handleClose(scope.row.params, index, scope.row)">
                 {{tag}}
               </el-tag>
+              <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleInputConfirm(scope.row.params)"
+                @blur="handleInputConfirm(scope.row.params)">
+              </el-input>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -110,7 +120,9 @@ export default {
       selectedOptions: [],
       activeTab: 'many',
       dynamicParams: [],
-      staticParams: []
+      staticParams: [],
+      inputVisible: false,
+      inputValue: ''
     };
   },
   created() {
@@ -176,6 +188,20 @@ export default {
       } else {
         this.$message.error(msg);
       }
+    },
+    handleInputConfirm(params) {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        params.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(() => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
     }
   }
 };
@@ -184,5 +210,17 @@ export default {
 <style scoped>
 .el-tag + .el-tag {
   margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>
