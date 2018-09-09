@@ -53,7 +53,8 @@
               expand-trigger="hover"
               :options="options"
               :props="{ label: 'cat_name', value: 'cat_id', children: 'children' }"
-              v-model="selectedOptions">
+              v-model="selectedOptions"
+              @change="handleChange">
             </el-cascader>
           </el-form-item>
         </el-tab-pane>
@@ -101,6 +102,16 @@ export default {
     async loadOptions() {
       const response = await this.$http.get('categories?type=3');
       this.options = response.data.data;
+    },
+    // 多级下拉选中的内容发生变化的时候执行
+    handleChange() {
+      // 判断当前选择的是否是3级分类
+      if (this.selectedOptions.length !== 3) {
+        // 提示
+        this.$message.warning('请选择商品的三级分类');
+        // 清空数组
+        this.selectedOptions.length = 0;
+      }
     }
   }
 };
