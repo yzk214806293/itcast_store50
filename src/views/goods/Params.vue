@@ -113,14 +113,38 @@ export default {
   methods: {
     // 多级下拉发生改变的时候执行
     handleChange() {
+      this.loadParams();
     },
     // 点击tab的时候执行
     handleClick(tab) {
+      this.loadParams();
     },
     // 加载商品分类
     async loadOptions() {
       const response = await this.$http.get('categories?type=3');
       this.options = response.data.data;
+    },
+    // 加载动态参数/静态参数
+    async loadParams() {
+      if (this.selectedOptions.length !== 3) {
+        this.$message.warning('请选择三级分类');
+        return;
+      }
+      const response = await this.$http.get(`categories/${this.selectedOptions[2]}/attributes?sel=${this.activeTab}`);
+
+      if (this.activeTab === 'many') {
+        // 动态参数
+        this.dynamicParams = response.data.data;
+        // attr_vals ->  'a,b,c' -->  [a, b, c]
+        this.dynamicParams.forEach((item) => {
+          // item.attr_vals
+          // 动态给item对象增加了一个属性params
+          item.params = item.attr_vals.length === 0 ? [] : item.attr_vals.split(',');
+        });
+      } else {
+        // 静态参数赋值
+        this.staticParams = response.data.data;
+      }
     }
   }
 };
