@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input ref="input" type="text" v-if="inputVisible">
+    <button @click="handle">按钮</button>
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        inputVisible: false
+      },
+      methods: {
+        handle() {
+          this.inputVisible = true;
+          
+          // 等待下一次界面更新的时候，才能够获取到显示的文本框
+          this.$nextTick(() => {
+            console.log(this.$refs.input);
+            this.$refs.input.focus();
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
