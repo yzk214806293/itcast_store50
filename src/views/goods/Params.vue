@@ -39,7 +39,13 @@
           style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="scope">
-              hello
+              <el-tag
+                v-for="tag in scope.row.params"
+                :key="tag"
+                closable
+                @close="handleClose">
+                {{tag}}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -145,11 +151,16 @@ export default {
         // 静态参数赋值
         this.staticParams = response.data.data;
       }
+    },
+    // 点击tag的关闭按钮的时候执行
+    handleClose() {
     }
   }
 };
 </script>
 
-<style>
-
+<style scoped>
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
 </style>
