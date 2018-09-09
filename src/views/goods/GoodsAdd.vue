@@ -97,6 +97,15 @@ export default {
       // console.log(tab);
       // tab.index  当前tab页的索引-字符串类型
       this.active = tab.index - 0;
+
+      // 如果当前的标签页是 商品参数/商品属性
+      if (tab.index === '1' || tab.index === '2') {
+        // 判断当前的多级下拉中是否选择了3级分类
+        if (this.selectedOptions.length < 3) {
+          this.$message.warning('请选择商品的三级分类');
+        }
+      }
+
     },
     // 加载多级下拉的分类数据
     async loadOptions() {
