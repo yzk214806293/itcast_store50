@@ -23,16 +23,45 @@
       <el-step title="商品内容"></el-step>
     </el-steps>
     <!-- tab栏 -->
-    <el-tabs
-      @tab-click="handleTabClick"
-      tab-position="left"
-      style="margin-top: 15px">
-      <el-tab-pane label="基本信息">基本信息</el-tab-pane>
-      <el-tab-pane label="商品参数">商品参数</el-tab-pane>
-      <el-tab-pane label="商品属性">商品属性</el-tab-pane>
-      <el-tab-pane label="商品图片">商品图片</el-tab-pane>
-      <el-tab-pane label="商品内容">商品内容</el-tab-pane>
-    </el-tabs>
+    <el-form
+      label-position="top"
+      label-width="80px"
+      :model="formData">
+      <el-tabs
+        @tab-click="handleTabClick"
+        tab-position="left"
+        style="margin-top: 15px">
+        <el-tab-pane label="基本信息">
+          <!-- 基本信息 -->
+          <el-form-item label="商品名称">
+            <el-input v-model="formData"></el-input>
+          </el-form-item>
+          <el-form-item label="商品价格">
+            <el-input v-model="formData"></el-input>
+          </el-form-item>
+          <el-form-item label="商品重量">
+            <el-input v-model="formData"></el-input>
+          </el-form-item>
+          <el-form-item label="商品数量">
+            <el-input v-model="formData"></el-input>
+          </el-form-item>
+          <el-form-item label="商品分类">
+            <!-- 多级下拉框 -->
+            <el-cascader
+              clearable
+              expand-trigger="hover"
+              :options="options"
+              :props="{ label: 'cat_name', value: 'cat_id', children: 'children' }"
+              v-model="selectedOptions2">
+            </el-cascader>
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="商品参数">商品参数</el-tab-pane>
+        <el-tab-pane label="商品属性">商品属性</el-tab-pane>
+        <el-tab-pane label="商品图片">商品图片</el-tab-pane>
+        <el-tab-pane label="商品内容">商品内容</el-tab-pane>
+      </el-tabs>
+    </el-form>
   </el-card>
 </template>
 
@@ -40,7 +69,11 @@
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      formData: {
+      },
+      // 绑定多级下拉的数据
+      options: []
     };
   },
   methods: {
