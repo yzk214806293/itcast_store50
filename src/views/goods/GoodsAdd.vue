@@ -100,7 +100,7 @@
           </el-upload>
         </el-tab-pane>
         <el-tab-pane label="商品内容">
-          <el-button>添加商品</el-button>
+          <el-button @click="handleAdd">添加商品</el-button>
           <quill-editor
             v-model="formData.goods_introduce">
           </quill-editor>
@@ -133,7 +133,8 @@ export default {
         // 用,分割的分类id列表
         goods_cat: '',
         pics: [],
-        goods_introduce: ''
+        goods_introduce: '',
+        attrs: []
       },
       // 绑定多级下拉的数据
       options: [],
@@ -245,6 +246,47 @@ export default {
       // console.log(file);
       // // 数组，包含了file
       // console.log(fileList);
+    },
+    // 添加商品
+    async handleAdd() {
+      // goods_cat 分类的id列表
+      this.formData.goods_cat = this.selectedOptions.join(',');
+      // attrs  分类参数
+      const arr1 = this.staticParams.map((item) => {
+        // 回调函数返回的结果，组成一个新的数组返回
+        return {
+          attr_id: item.attr_id,
+          attr_value: item.attr_vals
+        }
+      });
+
+      const arr2 = this.dynamicParams.map((item) => {
+        return {
+          attr_id: item.attr_id,
+          attr_value: item.attr_vals.join(',')
+        }
+      });
+
+      this.formData.attrs = [...arr1, ...arr2];
+      // "attrs":[
+      //   {
+      //     "attr_id":15,
+      //     "attr_value":"ddd"
+      //   },
+      //   {
+      //     "attr_id":15,
+      //     "attr_value":"eee"
+      //   }
+      //]
+      const response = await this.$http.post('goods', this.formData);
+      const { meta: { status, msg } } = response.data;
+      if (status === 201) {
+        // 成功
+        this.$message.success(msg);
+        this.$router.push('/goods');
+      } else {
+        this.$message.error(msg);
+      }
     }
   }
 };
