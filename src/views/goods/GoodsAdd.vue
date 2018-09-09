@@ -126,23 +126,30 @@ export default {
         } else {
           // 确保选择了三级分类
           // 加载商品参数
-          this.loadParams();
+          const sel = tab.index === '1' ? 'many' : 'only';
+          this.loadParams(sel);
         }
       }
     },
     // 加载分类参数（动态参数和静态参数）
-    async loadParams() {
-      const response = await this.$http.get(`categories/${this.selectedOptions[2]}/attributes?sel=many`);
+    async loadParams(sel) {
+      const response = await this.$http.get(`categories/${this.selectedOptions[2]}/attributes?sel=${sel}`);
 
-      this.dynamicParams = response.data.data;
-      // console.log(this.dynamicParams);
-      // 把动态参数的attr_vals 转换成数组，方便界面上去遍历
-      // 遍历dynamicParams数组，把attr_vals转换成数组
-      this.dynamicParams.forEach((item) => {
-        // ab,bb,ccc  ->  [ab, bb, cc]
-        // item.attr_vals
-        item.attr_vals = item.attr_vals.length === '' ? [] : item.attr_vals.split(',');
-      });
+      if (sel === 'many') {
+        // 加载的动态参数
+        this.dynamicParams = response.data.data;
+        // console.log(this.dynamicParams);
+        // 把动态参数的attr_vals 转换成数组，方便界面上去遍历
+        // 遍历dynamicParams数组，把attr_vals转换成数组
+        this.dynamicParams.forEach((item) => {
+          // ab,bb,ccc  ->  [ab, bb, cc]
+          // item.attr_vals
+          item.attr_vals = item.attr_vals.length === '' ? [] : item.attr_vals.split(',');
+        });
+      } else {
+        // 加载静态参数
+        this.staticParams = response.data.data;
+      }
     },
     // 加载多级下拉的分类数据
     async loadOptions() {
