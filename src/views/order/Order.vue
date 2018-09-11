@@ -1,6 +1,6 @@
 <template>
   <el-card class="card">
-    <my-breadcrumb level1="权限管理" level2="权限列表"></my-breadcrumb>
+    <my-breadcrumb level1="订单管理" level2="订单列表"></my-breadcrumb>
     <el-table
       border
       stripe
@@ -46,7 +46,7 @@
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button @click="dialogFormVisible = true" size="mini" plain icon="el-icon-edit"></el-button>
+          <el-button @click="handleOpenDialog" size="mini" plain icon="el-icon-edit"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,6 +65,11 @@
       <el-form :model="form" label-width="100px">
         <el-form-item label="省市区/县" >
           <!-- 级联下拉框 -->
+          <el-cascader
+            expand-trigger="hover"
+            :options="options"
+            v-model="selectedOptions">
+          </el-cascader>
         </el-form-item>
         <el-form-item label="详细地址">
           <el-input auto-complete="off"></el-input>
@@ -79,6 +84,8 @@
 </template>
 
 <script>
+import cityData from './city_data2017_element';
+
 export default {
   data() {
     return {
@@ -88,7 +95,9 @@ export default {
       total: 0,
       dialogFormVisible: false,
       form: {
-      }
+      },
+      options: [],
+      selectedOptions: []
     };
   },
   created() {
@@ -112,6 +121,12 @@ export default {
       this.pagenum = val;
       this.loadData();
       console.log(`当前页: ${val}`);
+    },
+    // 打开对话框
+    handleOpenDialog() {
+      this.dialogFormVisible = true;
+      // 加载省市数据
+      this.options = cityData;
     }
   }
 };
