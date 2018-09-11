@@ -46,11 +46,11 @@
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" plain icon="el-icon-edit"></el-button>
+          <el-button @click="dialogFormVisible = true" size="mini" plain icon="el-icon-edit"></el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    <!-- 分页 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -60,6 +60,21 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+    <!-- 对话框 -->
+    <el-dialog title="修改订单地址" :visible.sync="dialogFormVisible">
+      <el-form :model="form" label-width="100px">
+        <el-form-item label="省市区/县" >
+          <!-- 级联下拉框 -->
+        </el-form-item>
+        <el-form-item label="详细地址">
+          <el-input auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -70,7 +85,10 @@ export default {
       tableData: [],
       pagenum: 1,
       pagesize: 10,
-      total: 0
+      total: 0,
+      dialogFormVisible: false,
+      form: {
+      }
     };
   },
   created() {
