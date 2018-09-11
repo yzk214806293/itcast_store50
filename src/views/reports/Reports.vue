@@ -22,18 +22,18 @@ export default {
       title: {
         text: 'xxx'
       },
-      tooltip : {
+      tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'cross',
           label: {
-              backgroundColor: '#6a7985'
+            backgroundColor: '#6a7985'
           }
         }
       },
       toolbox: {
         feature: {
-            saveAsImage: {}
+          saveAsImage: {}
         }
       },
       grid: {

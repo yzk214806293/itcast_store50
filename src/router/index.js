@@ -1,23 +1,20 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { Message } from 'element-ui';
-// 1 @是src目录，在build的配置文件中配置的
-//   @  webpack.base.conf 的第38行配置的
 
-// 2 为什么可以省略掉.vue
-// 加载一个模块的时候，如果省略后缀名，默认情况 先加载login.js，如果找不到再加载 login.json
-// 默认的情况可以修改，在webpack.base.conf的35行配置
-import Login from '@/views/Login';
-import Home from '@/views/Home';
-import Users from '@/views/users/List';
-import Rights from '@/views/rights/Rights';
-import Roles from '@/views/rights/Roles';
-import Categories from '@/views/goods/Categories';
-import Goods from '@/views/goods/Goods';
-import GoodsAdd from '@/views/goods/GoodsAdd';
-import Params from '@/views/goods/Params';
-import Order from '@/views/order/Order';
-import Reports from '@/views/reports/Reports';
+// 改造路由懒加载
+// 路由对应的组件
+const Login = () => import('@/views/Login');
+const Home = () => import('@/views/Home');
+const Users = () => import('@/views/users/List');
+const Rights = () => import('@/views/rights/Rights');
+const Roles = () => import('@/views/rights/Roles');
+const Categories = () => import('@/views/goods/Categories');
+const Goods = () => import('@/views/goods/Goods');
+const GoodsAdd = () => import('@/views/goods/GoodsAdd');
+const Params = () => import('@/views/goods/Params');
+const Order = () => import('@/views/order/Order');
+const Reports = () => import('@/views/reports/Reports');
 
 Vue.use(Router);
 

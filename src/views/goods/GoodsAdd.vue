@@ -257,14 +257,14 @@ export default {
         return {
           attr_id: item.attr_id,
           attr_value: item.attr_vals
-        }
+        };
       });
 
       const arr2 = this.dynamicParams.map((item) => {
         return {
           attr_id: item.attr_id,
           attr_value: item.attr_vals.join(',')
-        }
+        };
       });
 
       this.formData.attrs = [...arr1, ...arr2];
@@ -277,7 +277,7 @@ export default {
       //     "attr_id":15,
       //     "attr_value":"eee"
       //   }
-      //]
+      // ]
       const response = await this.$http.post('goods', this.formData);
       const { meta: { status, msg } } = response.data;
       if (status === 201) {
