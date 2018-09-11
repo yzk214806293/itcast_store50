@@ -10,44 +10,49 @@
 import echarts from 'echarts';
 
 export default {
-  mounted() {
-    // 1 初始化echarts的实例
-    const myChart = echarts.init(this.$refs.div);
+  async mounted() {
+    // 发送异步请求，获取图片数据
+    // reports/type/1
+    const response = await this.$http.get('reports/type/1');
+
     // 2 准备option
-    // const option = {
-    //   title: {
-    //     text: 'ECharts Hello'
-    //   },
-    //   tooltip: {},
-    //   legend: {
-    //     data:['销量']
-    //   },
-    //   xAxis: {
-    //     data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-    //   },
-    //   yAxis: {},
-    //   series: [{
-    //     name: '销量',
-    //     type: 'bar',
-    //     data: [1000, 20, 36, 10, 10, 20]
-    //   }]
-    // };
-    const option = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line'
-        }]
+    let option = response.data.data;
+
+    const data = {
+      title: {
+        text: 'xxx'
+      },
+      tooltip : {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+              backgroundColor: '#6a7985'
+          }
+        }
+      },
+      toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      }
     };
 
+    option = { ...option, ...data };
+
+    // 设置xAxis 中的 boundaryGap : false,
+    option.xAxis[0].boundaryGap = false;
+
+    // 1 初始化echarts的实例
+    const myChart = echarts.init(this.$refs.div);
     // 3 设置option
-    myChart.setOption(option)
+    myChart.setOption(option);
   }
 };
 </script>
