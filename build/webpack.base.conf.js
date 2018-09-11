@@ -20,6 +20,21 @@ const createLintingRule = () => ({
 })
 
 module.exports = {
+  // 配置cdn
+  // https://www.bootcdn.cn/
+  externals: {
+    // 对象的属性 --> 我们import xxx from 'vue'
+    // 对象的值   --> 是在index.html引入js之后，在全局范围增加的对象
+
+    // 告诉webpack，我们index.html已经配置好了cdn
+    // 不需要再从node_modules中打包
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'element-ui': 'ELEMENT',
+    'axios': 'axios',
+    'echarts': 'echarts',
+    'moment': 'moment'
+  },
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
