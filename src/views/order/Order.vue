@@ -24,6 +24,11 @@
         prop="order_pay"
         label="是否付款"
         width="100">
+        <template slot-scope="scope">
+          <el-tag type="danger">
+            {{ scope.row.order_pay === '0' ? '未付款' : '付款' }}
+          </el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="is_send"
@@ -34,6 +39,9 @@
         prop="create_time"
         label="下单时间"
         width="200">
+        <template slot-scope="scope">
+          {{ scope.row.create_time | fmtDate('YYYY-MM-DD HH:mm:ss') }}
+        </template>
       </el-table-column>
       <el-table-column
         label="操作">
@@ -51,6 +59,16 @@ export default {
     return {
       tableData: []
     };
+  },
+  created() {
+    this.loadData();
+  },
+  methods: {
+    // 加载数据
+    async loadData() {
+      const response = await this.$http.get('orders?pagenum=1&pagesize=10');
+      this.tableData = response.data.data.goods;
+    }
   }
 };
 </script>
