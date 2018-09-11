@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { Message } from 'element-ui';
 // 1 @是src目录，在build的配置文件中配置的
 //   @  webpack.base.conf 的第38行配置的
 
@@ -15,8 +16,7 @@ import Categories from '@/views/goods/Categories';
 import Goods from '@/views/goods/Goods';
 import GoodsAdd from '@/views/goods/GoodsAdd';
 import Params from '@/views/goods/Params';
-
-import { Message } from 'element-ui';
+import Order from '@/views/order/Order';
 
 Vue.use(Router);
 
@@ -62,6 +62,11 @@ const router = new Router({
           name: 'params',
           path: '/params',
           component: Params
+        },
+        {
+          name: 'order',
+          path: '/orders',
+          component: Order
         }
       ]
     }

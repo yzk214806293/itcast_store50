@@ -262,12 +262,12 @@ export default {
       // // 设置请求头
       // this.$http.defaults.headers.common['Authorization'] = token;
 
-      const response = await this.$http.get(`users?pageum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
+      const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
       // 请求结束
       this.loading = false;
 
       this.tableData = response.data.data.users;
-
+      
       // const { meta: { msg, status } } = response.data;
       // // 判断获取数据是否ok
       // if (status === 200) {
