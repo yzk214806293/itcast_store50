@@ -262,19 +262,21 @@ export default {
       // // 设置请求头
       // this.$http.defaults.headers.common['Authorization'] = token;
 
-      const response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
+      const response = await this.$http.get(`users?pageum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.searchValue}`);
       // 请求结束
       this.loading = false;
 
-      const { meta: { msg, status } } = response.data;
-      // 判断获取数据是否ok
-      if (status === 200) {
-        this.tableData = response.data.data.users;
-        // 设置总条数
-        this.total = response.data.data.total;
-      } else {
-        this.$message.error(msg);
-      }
+      this.tableData = response.data.data.users;
+
+      // const { meta: { msg, status } } = response.data;
+      // // 判断获取数据是否ok
+      // if (status === 200) {
+      //   this.tableData = response.data.data.users;
+      //   // 设置总条数
+      //   this.total = response.data.data.total;
+      // } else {
+      //   this.$message.error(msg);
+      // }
     },
     // 分页相关方法
     handleSizeChange(val) {

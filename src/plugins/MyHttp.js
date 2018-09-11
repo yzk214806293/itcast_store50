@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Loading } from 'element-ui';
+import { Loading, Message } from 'element-ui';
 
 const MyHttp = {};
 // vue的插件 必须有一个公共的install方法
@@ -38,6 +38,15 @@ MyHttp.install = function (Vue) {
   axios.interceptors.response.use(function (response) {
     // 1. 隐藏加载提示
     loadingInstance.close();
+
+    // 2. 统一处理获取响应数据，判断获取数据成功还是失败
+    const { meta: { msg, status } } = response.data;
+    if (status === 200 || status === 201) {
+      // 成功
+    } else {
+      // 失败
+      Message.error(msg);
+    }
     // Do something with response data
     return response;
   }, function (error) {
